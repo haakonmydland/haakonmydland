@@ -1,5 +1,5 @@
 <h1 align="center">Hi 👋, I'm Haakon</h1>
-<h3 align="center">My offical title is Creative Wizard 🧙 (and I don't really know what it entails)</h3>
+<h3 align="center">My offical title is Creative Wizard 🧙 (and I don't really know what that entails)</h3>
 
 ---
 
