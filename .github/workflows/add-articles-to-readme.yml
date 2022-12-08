@@ -1,0 +1,36 @@
+name: Add dev.to articles to GitHub readme
+
+on:
+  schedule:
+    # run this action daily at midnight
+    - cron: '0 0 * * *'
+
+jobs:
+  add_articles:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+      with:
+        # replace `YOUR_GITHUB_USERNAME` with your actual GitHub username
+        repository: haakonmydland/haakonmydland
+        path: /
+
+    - name: Fetch dev.to articles
+      # replace `YOUR_DEV_TO_USERNAME` with your actual dev.to username
+      run: curl https://dev.to/api/articles?username=haakonmydland > articles.json
+
+    - name: Add articles to readme
+      # replace `YOUR_GITHUB_USERNAME` and `YOUR_REPO_NAME` with your actual GitHub username and repo name
+      run: |
+        # parse the JSON file and extract the article titles and URLs
+        articles=$(cat articles.json | jq -r '.[] | "\(.title) (\(.url))"')
+
+        # add the list of articles to the bottom of the readme file
+        cat README.md > temp && echo "$articles" >> temp && mv temp README.md
+
+    - name: Commit and push changes
+      run: |
+        git add .
+        git commit -m "Add dev.to articles to readme"
+        git push
